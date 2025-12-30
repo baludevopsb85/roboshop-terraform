@@ -1,4 +1,6 @@
+# ------------------------------------------
 # VPC Module (module "vpc")
+# ------------------------------------------
 # Creates VPCs and subnets based on var.vpc.
 # Configures CIDR blocks and VPC peering.
 # Uses for_each to support multiple VPCs.
@@ -14,7 +16,9 @@ module "vpc" {
 }
 
 
+# -------------------------------------------------------------------------------------
 # EC2 Module (module "ec2")
+# -------------------------------------------------------------------------------------
 # Launches database EC2 instances (MySQL, MongoDB, Redis, RabbitMQ).
 # Assigns AMI, instance type, disk size, subnet, VPC, security, and port configurations.
 # Integrates with bastion nodes and KMS for encryption.
@@ -37,8 +41,9 @@ module "ec2" {
   kms_arn_id    = var.kms_arn_id
 }
 
-
+# ----------------------------------------------------
 # EKS Module (module "eks")
+# ----------------------------------------------------
 # Deploys EKS clusters with node groups
 # Configures subnets, access roles, and cluster addons
 # Supports Vault integration and KMS encryption
@@ -56,8 +61,9 @@ module "eks" {
   kms_arn_id  = var.kms_arn_id
 }
 
-
+# -----------------------------------------------------------------------
 # Output (output "main")
+# -----------------------------------------------------------------------
 # Exposes the VPC module output for reference in other modules or scripts
 
 output "main" {
