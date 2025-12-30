@@ -1,4 +1,6 @@
+# ---------------------------
 # EC2 Instances Configuration
+# ---------------------------
 # Defines the compute instances for applications and tools, including instance type, disk size, and environment-specific settings
 # Example: frontend, mysql, mongodb, redis, rabbitmq, cart, catalogue, user, shipping, payment
 
@@ -45,8 +47,9 @@
 #   }
 # }
 
-
+# ------------------------
 # Databases Configuration
+# ------------------------
 # Specifies database instances with instance type, disk size, subnet reference, application port, and allowed CIDRs
 # Example: mysql, mongodb, redis, rabbitmq
 
@@ -81,8 +84,9 @@ databases = {
   }
 }
 
-
+# --------------------------
 # Environment & AMI Settings
+# --------------------------
 # Global settings for environment, AMI ID, zone, and KMS ARN
 # Variables: env, ami, zone_id, zone_name, kms_arn_id
 
@@ -146,7 +150,9 @@ eks = {
 }
 
 
+# ------------------------------
 # VPC & Networking Configuration
+# ------------------------------
 # VPC CIDR, subnet CIDRs, availability zones, IGW/NGW setup, and VPC peering
 # Example: vpc.main, subnets, vpc_peers
 
@@ -211,8 +217,9 @@ vpc = {
   }
 }
 
-
+# --------------------------
 # Bastion Nodes / SSH Access
+# --------------------------
 # List of IPs allowed to access the infrastructure via bastion for management or administrative purposes
 # Variable: bastion_nodes
 
