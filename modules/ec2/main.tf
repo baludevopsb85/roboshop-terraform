@@ -1,4 +1,6 @@
+# ------------------------------------------
 # Security Group: TLS and Application Access
+# ------------------------------------------
 # Defines ingress (SSH & app ports) and egress rules for the EC2 instance with proper tagging
 
 resource "aws_security_group" "allow_tls" {
@@ -33,8 +35,11 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 
+# -------------------------------
 # EC2 Instance: Standard Instance
-#Creates a regular EC2 instance with specified AMI, instance type, security groups, IAM profile, subnet, and encrypted root volume
+# -------------------------------
+#Creates a regular EC2 instance with specified AMI, instance type, security groups, IAM profile, subnet, and
+# encrypted root volume
 
 resource "aws_instance" "instance" {
   count                  = var.spot ? 0 : 1
@@ -57,7 +62,9 @@ resource "aws_instance" "instance" {
 }
 
 
+# ---------------------------
 # EC2 Instance: Spot Instance
+# ---------------------------
 # Creates a spot EC2 instance with market options and interruption behavior. Uses a different security group and tagging
 
 resource "aws_instance" "spot_instance" {
@@ -87,7 +94,9 @@ resource "aws_instance" "spot_instance" {
 }
 
 
+# ----------------------------------
 # DNS Record: Private Route53 Entry
+# ----------------------------------
 # Creates a private DNS A record pointing to the instance’s private IP (handles spot or regular instance)
 
 resource "aws_route53_record" "record" {
@@ -99,7 +108,9 @@ resource "aws_route53_record" "record" {
 }
 
 
+# --------------------------------
 # DNS Record: Public Route53 Entry
+# --------------------------------
 # Creates a public DNS A record pointing to the instance’s public IP (only if env is null)
 
 resource "aws_route53_record" "public" {
@@ -112,8 +123,11 @@ resource "aws_route53_record" "public" {
 }
 
 
+# -----------------------
 # Ansible Pull Execution
-# Runs ansible-pull on the created instance using SSH credentials from Vault, pulling playbooks from GitHub for configuration management
+# -----------------------
+# Runs ansible-pull on the created instance using SSH credentials from Vault, pulling playbooks from GitHub for
+# configuration management
 
 resource "null_resource" "ansible" {
 
