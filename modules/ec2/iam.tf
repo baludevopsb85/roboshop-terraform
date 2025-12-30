@@ -1,5 +1,8 @@
+# ----------------------------------------------------------------------------------------------
 # EC2 IAM Role(Permissions for the server)
-# Creates an IAM role that allows an EC2 instance to securely access AWS services (like S3, ECR) without using access keys
+# ----------------------------------------------------------------------------------------------
+# Creates an IAM role that allows an EC2 instance to securely access AWS services (like S3, ECR)
+# without using access keys
 
 # Attach Permissions Directly to the EC2 Role using inline_policy
 # Grants required AWS permissions to the EC2 instance based on the application or tool needs
@@ -36,8 +39,9 @@ resource "aws_iam_role" "main" {
   }
 }
 
-
+# -------------------------------------------------------------------------------------------
 # Grants required AWS permissions to the EC2 instance based on the application or tool needs
+# -------------------------------------------------------------------------------------------
 # Binds the IAM role to the EC2 instance so the server can actually use those permissions
 
 resource "aws_iam_instance_profile" "main" {
@@ -45,8 +49,9 @@ resource "aws_iam_instance_profile" "main" {
   role = aws_iam_role.main.name
 }
 
-
+# ----------------------------------------------
 # Enable AWS SSM Access (No SSH Required)
+# ----------------------------------------------
 # Attaches AWS Systems Manager policy, allowing:
 # Session Manager access
 # Remote commands
