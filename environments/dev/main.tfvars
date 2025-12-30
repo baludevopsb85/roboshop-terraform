@@ -89,7 +89,7 @@ databases = {
 env        = "dev"
 ami        = "ami-0051178e229f92cb4"
 zone_id    = "Z09055292Q5WKIF45FE2E"
-zone_name  = "rdevopsb85.online"
+zone_name  = "roboshop.store"
 kms_arn_id = "arn:aws:kms:us-east-1:739561048503:key/13b65efd-dc45-4824-8a8a-b618dfda88d9"
 
 
