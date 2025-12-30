@@ -1,5 +1,8 @@
+# ----------------------------------------------------
 # Input Variables – EC2 & Infrastructure Configuration
-# Defines all input parameters required for EC2 instance creation, networking, security, IAM, spot instance options, disk sizing, monitoring,
+# ----------------------------------------------------
+# Defines all input parameters required for EC2 instance creation, networking, security, IAM, spot instance options,
+# disk sizing, monitoring,
 # environment settings, and integration with Route53 and Vault.
 
 
