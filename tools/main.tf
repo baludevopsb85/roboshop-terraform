@@ -1,6 +1,9 @@
+# -------------------------------------------------------------
 # EC2 Tool Servers Provisioning (Reusable Module EC2)
-
-# Creates and manages multiple EC2 instances for DevOps tools (like Vault, ELK, JFROG, GitHub Actions Runner,) using a single reusable Terraform
+# -------------------------------------------------------------
+# Creates and manages multiple EC2 instances for DevOps tools :
+# (like Vault, ELK, JFROG, GitHub Actions Runner,)
+# using a single reusable Terraform
 # module, with per-tool customization
 
 module "tools" {
@@ -20,9 +23,11 @@ module "tools" {
   subnet         = try(each.value["subnet"], null)
 }
 
-
+# --------------------------------------------------------------------
 # Amazon ECR Repositories for Application Images
-# Creates multiple Amazon ECR repositories to store Docker images for Roboshop microservices with configurable tag mutability
+# --------------------------------------------------------------------
+# Creates multiple Amazon ECR repositories to store Docker images for
+# Roboshop microservices with configurable tag mutability
 
 resource "aws_ecr_repository" "main" {
   for_each             = var.ecr
