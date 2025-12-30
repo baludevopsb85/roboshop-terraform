@@ -1,4 +1,6 @@
+# -------------------------------
 # Terraform Backend Configuration
+# -------------------------------
 # Specifies where Terraform stores its state remotely.
 # bucket: S3 bucket name to hold the state file.
 # key: Path within the bucket for this environment’s state file.
