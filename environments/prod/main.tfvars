@@ -1,4 +1,6 @@
+# ---------------------------
 # EC2 Instances Configuration
+# ---------------------------
 # Defines the compute instances for applications and tools, including instance type, disk size, and environment-specific settings
 # Example: frontend, mysql, mongodb, redis, rabbitmq, cart, catalogue, user, shipping, payment
 
@@ -36,7 +38,9 @@ instances = {
 }
 
 
+# --------------------------
 # Environment & AMI Settings
+# --------------------------
 # Global settings for environment, AMI ID, zone, and KMS ARN
 # Variables: env, ami, zone_id, zone_name
 
