@@ -1,0 +1,19 @@
+# Full Stack Deploy (Terraform + Helm) use this for full infra creation + helm apply
+name: Apply
+on:
+  workflow_dispatch:
+jobs:
+  apply:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Terraform Infra Apply
+        run: make dev-apply token=${vault_token}
+        env:
+          vault_token: ${{ secrets.VAULT_TOKEN }}
+      - name: Terraform Helm Apply
+        run: |
+          cd helm-charts
+          make dev-apply token=${vault_token}
+        env:
+          vault_token: ${{ secrets.VAULT_TOKEN }}

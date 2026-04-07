@@ -1,0 +1,19 @@
+name: Destroy
+on:
+  workflow_dispatch:
+jobs:
+  apply:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Terraform Helm Destroy
+        run: |
+          cd helm-charts
+          make dev-destroy token=${vault_token}
+        env:
+          vault_token: ${{ secrets.VAULT_TOKEN }}
+
+      - name: Terraform Infra Destroy
+        run: make dev-destroy token=${vault_token}
+        env:
+          vault_token: ${{ secrets.VAULT_TOKEN }}

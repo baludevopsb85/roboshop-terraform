@@ -1,0 +1,15 @@
+# App-Only Deploy (Helm only) use this when infra is already created and need only helm apply for components
+name: Helm Apply
+on:
+  workflow_dispatch:
+jobs:
+  apply:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Terraform Helm Apply
+        run: |
+          cd helm-charts
+          make dev-apply token=${vault_token}
+        env:
+          vault_token: ${{ secrets.VAULT_TOKEN }}
