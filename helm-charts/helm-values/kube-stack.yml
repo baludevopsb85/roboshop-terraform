@@ -1,0 +1,106 @@
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+
+
+  prometheusSpec:
+    additionalScrapeConfigs:
+      - job_name: ingress
+        static_configs:
+          - targets: [ "ingress-nginx-controller-metrics:10254" ]
+
+      - job_name: ec2-nodes
+        scrape_interval: 10s
+        ec2_sd_configs:
+          - region: us-east-1
+            port: 9100
+            filters:
+              - name: "tag:monitor"
+                values: [ "true", "yes" ]
+        relabel_configs:
+          - source_labels: [ __meta_ec2_instance_id ]
+            target_label: instance_id
+          - source_labels: [ __meta_ec2_instance_type ]
+            target_label: instance_type
+          - source_labels: [ __meta_ec2_tag_Name ]
+            target_label: ec2_name
+
+
+
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+  config:
+    global:
+      resolve_timeout: 1m
+    inhibit_rules:
+      - source_matchers:
+          - 'severity = critical'
+        target_matchers:
+          - 'severity =~ warning|info'
+        equal:
+          - 'namespace'
+          - 'alertname'
+      - source_matchers:
+          - 'severity = warning'
+        target_matchers:
+          - 'severity = info'
+        equal:
+          - 'namespace'
+          - 'alertname'
+      - source_matchers:
+          - 'alertname = InfoInhibitor'
+        target_matchers:
+          - 'severity = info'
+        equal:
+          - 'namespace'
+      - target_matchers:
+          - 'alertname = InfoInhibitor'
+    route:
+      group_by: ['namespace']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'email-ses-receiver'
+      routes:
+        - receiver: 'email-ses-receiver'
+          matchers:
+            - alertname = "Watchdog"
+    receivers:
+      - name: 'email-ses-receiver'
+        email_configs:
+          - to: 'balusena12@gmail.com'
+            from: 'balusena12@gmail.com'
+            smarthost: 'email-smtp.us-east-1.amazonaws.com:587'
+            auth_username: ${smtp_user}
+            auth_password: ${smtp_pass}
+            require_tls: true
+    templates:
+      - '/etc/alertmanager/config/*.tmpl'
+
+
+
+additionalPrometheusRulesMap:
+  rule-name:
+    groups:
+      - name: RoboShop Project
+        rules:
+          - alert: Pod CrashLoopBackOff
+            expr:  max_over_time(kube_pod_container_status_waiting_reason{job="kube-state-metrics",namespace=~".*",reason="CrashLoopBackOff"}[5m]) >= 1
+            for: 1m
+            labels:
+              severity: high
+              app: "infra"
+            annotations:
+              summary: Pod CrashLoopBackOff
+
+          - alert: Container High Cpu Usage
+            expr:  (rate(container_cpu_usage_seconds_total[1m]) * 100) > 1
+            for: 1m
+            labels:
+              severity: high
+              app: "infra"
+            annotations:
+              summary: Container High Cpu Usage
